@@ -26,41 +26,32 @@ event listeners must be registered to the basename of the log file, e.g. http.lo
 
 
 ```
-    var bro = require ('bro-ids')
-    // directory with the bro logs
-    var b = new bro('./testdata')
-    // start watching the files
-    b.watch()
+var bro = require ('bro-ids');
+// directory with the bro logs
 
-    b.on ('http', function (e) {
-        console.log (e)
-    })
+var connHandler = function(e) {
+  console.log (e);
+};
 
-    b.on ('conn', function (e) {
-        console.log (e)
-    })
+var httpHandler = function(e) {
+  console.log (e);
+};
 
-    b.on ('ssl', function (e) {
-        console.log (e)
-    })
+var defaultHandler = function(e) {
+  console.log (e);
+};
 
-    b.on ('x509', function (e) {
-        console.log (e)
-    })
+var handler = {
+  'conn':  connHandler,
+  'http':  httpHandler,
+  'file':  defaultHandler,
+  'ssl':   defaultHandler,
+  'stats': defaultHandler,
+  'weird': defaultHandler,
+  'x509':  defaultHandler
+};
 
-    b.on ('file', function (e) {
-        console.log (e)
-    })
-
-    b.on ('weird', function (e) {
-        console.log (e)
-    })
-
-    b.on ('stats', function (e) {
-        console.log (e)
-    })
-
-
+var b = new bro('./bro', handler);
 ```
 
 # roadmap
